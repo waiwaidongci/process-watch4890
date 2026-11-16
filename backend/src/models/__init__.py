@@ -5,3 +5,4 @@ from .measurement import Measurement
 from .baseline import Baseline
 from .control_run import ControlRun
 from .investigation import Investigation
+from .cover import CoverCause,CoverConflict,CoverSearch

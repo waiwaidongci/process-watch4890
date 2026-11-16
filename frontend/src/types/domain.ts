@@ -5,6 +5,11 @@ export interface BaselineStats{mean:number;mrbar:number;sigma:number;i_lower:num
 export interface Baseline{id:number;name:string;stream_id:number;sample_count:number;snapshot:{statistics:BaselineStats;points:Measurement[];input_hash:string;end_sequence:number};owner:string}
 export interface ControlPoint extends Measurement{moving_range:number;ewma:number;ewma_lower:number;ewma_upper:number;signals:string[]}
 export interface Result{stream:Stream;baseline:{id:number;name:string;sample_count:number;statistics:BaselineStats;input_hash:string};points:ControlPoint[];signals:{sequence:number;kind:string;value:number}[];signal_counts:Record<string,number>;monitor_count:number;stable:boolean;capability:{cp:number;cpk:number;mean:number;sigma_within:number;interpretable:boolean;note:string};smoothing:number;ewma_l:number;input_hash:string;interpretation:string;assumptions:string;baseline_source_changed:boolean}
+export interface CoverSignal{sequence:number;kind:string;value:number|null;candidate_cause_ids:number[];explained_by:number[]}
+export interface CoverCause{id:number;title:string;cost:number;signals:{sequence:number;kind:string}[];owner:string;created_at:string}
+export interface CoverConflict{id:number;cause_a_id:number;cause_b_id:number}
+export interface CoverSearch{status:string;best:{cost:number;cause_ids:number[];cause_count:number}|null;lower_bound:number|null;cost_proven:boolean;proof:boolean;ties_pending:boolean;nodes:number;episodes:number;frontier:number;rules_hash:string;infeasible_reason:string;uncoverable_signals:{sequence:number;kind:string}[]}
+export interface Cover{run_id:number;run_input_hash:string;signal_total:number;signals:CoverSignal[];causes:CoverCause[];conflicts:CoverConflict[];search:CoverSearch;rules_hash:string;max_causes:number;started?:boolean}
 export interface Run{id:number;name:string;baseline_id:number;smoothing:number;ewma_l:number;status:string;result:Result;error:string;owner:string;created_at:string}
 export interface Investigation{id:number;run_id:number;title:string;finding:string;action:string;status:string;owner:string;reviewer:string;review_note:string;created_at:string;reviewed_at:string}
 export interface Audit{id:number;actor:string;action:string;target:string;created_at:string}
